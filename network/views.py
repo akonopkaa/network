@@ -80,3 +80,14 @@ def create_post(request):
     )
     post.save()
     return JsonResponse({"message": "Post created successfully."}, status = 201)
+
+
+@login_required
+def get_all_posts(request):
+    if request.method != "GET":
+        return JsonResponse({"error": "GET request required."}, status = 400)
+    posts = Post.objects.order_by("-timestamp").all()
+    posts_serialized = []
+    for post in posts:
+        posts_serialized.append(post.serialize())
+    return JsonResponse(posts_serialized, safe = False)
