@@ -26,8 +26,6 @@ class User(AbstractUser):
             "user": self.username,
             "following_count": self.following.count(),
             "followers_count": self.followers.count(),
-            "following": self.get_following(),
-            "followers": self.get_followers()
         }
 
 
@@ -49,6 +47,7 @@ class Post(models.Model):
         return {
             "id": self.id,
             "user": self.user.username,
+            "user_id": self.user.id,
             "content": self.content,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "likes_count": self.likes.count(),

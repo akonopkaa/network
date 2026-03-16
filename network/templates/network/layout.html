@@ -11,7 +11,6 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="{% static 'network/index.js' %}" type="text/babel"></script>
 </head>
 
 <body>
@@ -23,15 +22,15 @@
             <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
+                    <a class="nav-link" onclick="onUserClick({{ user.id }})"><strong>{{ user.username }}</strong></a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">All Posts</a>
+                    <a class="nav-link" onclick="setHomePage()">All Posts</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Following</a>
+                    <a class="nav-link" onclick="setFollowingPage()">Following</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
@@ -52,6 +51,12 @@
         {% block body %}
         {% endblock %}
     </div>
+
+    <script src="{% static 'network/index.js' %}" type="text/babel"></script>
+    <script src="{% static 'network/profile.js' %}" type="text/babel"></script>
+    <script src="{% static 'network/following.js' %}" type="text/babel"></script>
+    <script src="{% static 'network/app.js' %}" type="text/babel"></script>
+
 </body>
 
 </html>

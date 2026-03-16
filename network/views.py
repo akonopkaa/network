@@ -91,3 +91,34 @@ def get_all_posts(request):
     for post in posts:
         posts_serialized.append(post.serialize())
     return JsonResponse(posts_serialized, safe = False)
+
+
+@login_required
+def get_user_data(request, id):
+    if request.method != "GET":
+        return JsonResponse({"error": "GET request required."}, status = 400)
+    user = User.objects.get(id = id)
+    user_serialize = user.serialize()
+    return JsonResponse(user_serialize, safe = False)
+
+
+@login_required
+def get_user_posts(request, id):
+    if request.method != "GET":
+        return JsonResponse({"error": "GET request required."}, status = 400)
+    posts = Post.objects.filter(user_id = id).order_by("-timestamp")
+    posts_serialized = []
+    for post in posts:
+        posts_serialized.append(post.serialize())
+    return JsonResponse(posts_serialized, safe = False)
+
+
+@login_required
+def get_following_posts(request):
+    if request.method != "GET":
+        return JsonResponse({"error": "GET request required."}, status = 400)
+    posts = Post.objects.filter(user__in = request.user.following.all()).order_by("-timestamp")
+    posts_serialized = []
+    for post in posts:
+        posts_serialized.append(post.serialize())
+    return JsonResponse(posts_serialized, safe = False)

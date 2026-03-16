@@ -1,4 +1,4 @@
-function CreatePost() {
+function CreatePost(props) {
 
     const [post, setPost] = React.useState("")
     const [status, setStatus] = React.useState("typing")
@@ -18,7 +18,7 @@ function CreatePost() {
                 console.log(response)
                 setPost("");
                 setStatus("typing");
-                window.location.reload();
+                props.onPostCreated()
             })
 
     }
@@ -49,12 +49,12 @@ function CreatePost() {
 
 }
 
-function GetAllPosts() {
+function GetAllPosts(props) {
 
     const [posts, setPosts] = React.useState([])
 
     React.useEffect(() => {
-        fetch("/api/get/all", {
+        fetch("/api/get/posts/all", {
             method: "GET"
         })
             .then(response => response.json())
@@ -62,14 +62,14 @@ function GetAllPosts() {
                 console.log(response)
                 setPosts(response)
             })
-    }, [])
+    }, [props.trigger])
 
     return (
         <div>
             {posts.map(post => (
 
                 <div>
-                    <div> <a href=""> user: {post.user} </a> </div>
+                    <div> <a onClick={() => props.onUserClick(post.user_id)}> user: {post.user} </a> </div>
                     <div>content: {post.content}</div>
                     <div>time: {post.timestamp}</div>
                     <div>likes: {post.likes_count}</div>
@@ -80,6 +80,3 @@ function GetAllPosts() {
     )
 
 }
-
-ReactDOM.render(<CreatePost />, document.querySelector("#create_post"))
-ReactDOM.render(<GetAllPosts />, document.querySelector("#all_posts"))
