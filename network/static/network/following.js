@@ -16,16 +16,11 @@ function GetFollowingPosts(props) {
     return (
         <div>
             {posts.map(post => (
-
-                <div>
-                    <div> <a onClick={() => props.onUserClick(post.user_id)}> user: {post.user} </a> </div>
-                    <div>content: {post.content}</div>
-                    <div>time: {post.timestamp}</div>
-                    <div>likes: {post.likes_count}</div>
-                </div>
-
+                <Post
+                    post={post}
+                    onUserClick={props.onUserClick}
+                />
             ))}
         </div>
     )
-
 }

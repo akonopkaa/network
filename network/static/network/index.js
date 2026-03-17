@@ -3,8 +3,11 @@ function CreatePost(props) {
     const [post, setPost] = React.useState("")
     const [status, setStatus] = React.useState("typing")
 
-    function handleSubmit(event) {
+    function handleTextAreaChange(event) {
+        setPost(event.target.value)
+    }
 
+    function handleSubmit(event) {
         event.preventDefault()
         setStatus("submitting")
         fetch("/api/create", {
@@ -20,19 +23,12 @@ function CreatePost(props) {
                 setStatus("typing");
                 props.onPostCreated()
             })
-
-    }
-
-    function handleTextAreaChange(event) {
-
-        setPost(event.target.value)
-
     }
 
     return (
-
         <div>
-            <form onSubmit={handleSubmit}>
+            <form
+                onSubmit={handleSubmit}>
                 <textarea
                     value={post}
                     onChange={handleTextAreaChange}
@@ -44,9 +40,7 @@ function CreatePost(props) {
                 </button>
             </form>
         </div>
-
     )
-
 }
 
 function GetAllPosts(props) {
@@ -67,16 +61,11 @@ function GetAllPosts(props) {
     return (
         <div>
             {posts.map(post => (
-
-                <div>
-                    <div> <a onClick={() => props.onUserClick(post.user_id)}> user: {post.user} </a> </div>
-                    <div>content: {post.content}</div>
-                    <div>time: {post.timestamp}</div>
-                    <div>likes: {post.likes_count}</div>
-                </div>
-
+                <Post
+                    post={post}
+                    onUserClick={props.onUserClick}
+                />
             ))}
         </div>
     )
-
 }

@@ -43,7 +43,7 @@ class Post(models.Model):
         return users
 
 
-    def serialize(self):
+    def serialize(self, user):
         return {
             "id": self.id,
             "user": self.user.username,
@@ -51,5 +51,6 @@ class Post(models.Model):
             "content": self.content,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "likes_count": self.likes.count(),
-            "likers": self.get_likers()
+            "likers": self.get_likers(),
+            "is_liked_by_me": self.likes.filter(id = user.id).exists()
         }

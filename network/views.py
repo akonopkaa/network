@@ -89,7 +89,7 @@ def get_all_posts(request):
     posts = Post.objects.order_by("-timestamp").all()
     posts_serialized = []
     for post in posts:
-        posts_serialized.append(post.serialize())
+        posts_serialized.append(post.serialize(request.user))
     return JsonResponse(posts_serialized, safe = False)
 
 
@@ -99,6 +99,8 @@ def get_user_data(request, id):
         return JsonResponse({"error": "GET request required."}, status = 400)
     user = User.objects.get(id = id)
     user_serialize = user.serialize()
+    user_serialize["is_me"] = (user == request.user)
+    user_serialize["is_followed"] = user.followers.filter(id=request.user.id).exists()
     return JsonResponse(user_serialize, safe = False)
 
 
@@ -109,7 +111,7 @@ def get_user_posts(request, id):
     posts = Post.objects.filter(user_id = id).order_by("-timestamp")
     posts_serialized = []
     for post in posts:
-        posts_serialized.append(post.serialize())
+        posts_serialized.append(post.serialize(request.user))
     return JsonResponse(posts_serialized, safe = False)
 
 
@@ -120,5 +122,37 @@ def get_following_posts(request):
     posts = Post.objects.filter(user__in = request.user.following.all()).order_by("-timestamp")
     posts_serialized = []
     for post in posts:
-        posts_serialized.append(post.serialize())
+        posts_serialized.append(post.serialize(request.user))
     return JsonResponse(posts_serialized, safe = False)
+
+
+@csrf_exempt
+@login_required
+def follow_user(request, id):
+    if request.method != "PUT":
+        return JsonResponse({"error": "PUT request required."}, status = 400)
+    user = User.objects.get(id = id)
+    if user == request.user:
+        return JsonResponse({"error": "Cannot follow yourself."}, status = 400)
+    if request.user.following.filter(id = id).exists():
+        request.user.following.remove(user)
+        message = "Unfollowed successfully."
+    else:
+        request.user.following.add(user)
+        message = "Followed successfully."
+    return JsonResponse({"message": message}, status = 200)
+
+
+@csrf_exempt
+@login_required
+def like_post(request, id):
+    if request.method != "PUT":
+        return JsonResponse({"error": "PUT request required."}, status = 400)
+    post = Post.objects.get(id = id)
+    if post.likes.filter(id = request.user.id).exists():
+        post.likes.remove(request.user)
+        message = "Post unliked successfully."
+    else:
+        post.likes.add(request.user)
+        message = "Post liked successfully."
+    return JsonResponse({"message": message}, status = 200)

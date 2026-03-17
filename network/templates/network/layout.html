@@ -24,11 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" onclick="onUserClick({{ user.id }})"><strong>{{ user.username }}</strong></a>
                 </li>
-                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" onclick="setHomePage()">All Posts</a>
                 </li>
-                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" onclick="setFollowingPage()">Following</a>
                 </li>
@@ -52,10 +50,13 @@
         {% endblock %}
     </div>
 
+    {% if user.is_authenticated %}
     <script src="{% static 'network/index.js' %}" type="text/babel"></script>
     <script src="{% static 'network/profile.js' %}" type="text/babel"></script>
     <script src="{% static 'network/following.js' %}" type="text/babel"></script>
+    <script src="{% static 'network/post.js' %}" type="text/babel"></script>
     <script src="{% static 'network/app.js' %}" type="text/babel"></script>
+    {% endif %}
 
 </body>
 

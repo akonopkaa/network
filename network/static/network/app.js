@@ -4,6 +4,10 @@ function App() {
     const [selectedUser, setSelectedUser] = React.useState(null)
     const [refreshTrigger, setRefreshTrigger] = React.useState(0);
 
+    window.setHomePage = setHomePage;
+    window.setFollowingPage = setFollowingPage;
+    window.onUserClick = onUserClick;
+
     function setHomePage() {
         setSelectedUser(null)
         setPage("index")
@@ -18,10 +22,6 @@ function App() {
         setSelectedUser(id)
         setPage("profile")
     }
-
-    window.setHomePage = setHomePage;
-    window.setFollowingPage = setFollowingPage;
-    window.onUserClick = onUserClick;
 
     function handlePostCreated() {
         setRefreshTrigger((oldValue) => {
@@ -51,6 +51,7 @@ function App() {
                 />
                 <UserPosts
                     id={selectedUser}
+                    onUserClick={onUserClick}
                 />
             </div>
         );
@@ -65,7 +66,6 @@ function App() {
             </div>
         );
     }
-
 }
 
 ReactDOM.render(<App />, document.querySelector("#app"));
