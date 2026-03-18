@@ -86,6 +86,7 @@ function UserPosts(props) {
                 <Post
                     post={post}
                     onUserClick={props.onUserClick}
+                    onEditClick={props.onEditClick}
                 />
             ))}
         </div>

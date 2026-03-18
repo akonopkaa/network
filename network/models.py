@@ -44,6 +44,10 @@ class Post(models.Model):
 
 
     def serialize(self, user):
+        is_mine = False
+        if self.user == user:
+            is_mine = True
+
         return {
             "id": self.id,
             "user": self.user.username,
@@ -52,5 +56,6 @@ class Post(models.Model):
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "likes_count": self.likes.count(),
             "likers": self.get_likers(),
+            "is_mine": is_mine,
             "is_liked_by_me": self.likes.filter(id = user.id).exists()
         }

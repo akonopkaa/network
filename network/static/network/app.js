@@ -1,8 +1,8 @@
 function App() {
 
-    const [page, setPage] = React.useState("index")
+    const [page, setPage] = React.useState("home")
     const [selectedUser, setSelectedUser] = React.useState(null)
-    const [refreshTrigger, setRefreshTrigger] = React.useState(0);
+    const [editingPost, setEditingPost] = React.useState(null)
 
     window.setHomePage = setHomePage;
     window.setFollowingPage = setFollowingPage;
@@ -10,7 +10,7 @@ function App() {
 
     function setHomePage() {
         setSelectedUser(null)
-        setPage("index")
+        setPage("home")
     }
 
     function setFollowingPage() {
@@ -23,21 +23,27 @@ function App() {
         setPage("profile")
     }
 
-    function handlePostCreated() {
-        setRefreshTrigger((oldValue) => {
-            return oldValue + 1
-        });
+    function handleCreate() {
+        setSelectedUser(null)
+        setPage("create")
     }
 
-    if (page === "index") {
+    function handleEdit(post) {
+        setEditingPost(post)
+        setPage("edit")
+    }
+
+    if (page === "home") {
         return (
             <div>
-                <CreatePost
-                    onPostCreated={handlePostCreated}
-                />
-                <GetAllPosts
+                <button
+                    onClick={handleCreate}>
+                    Create Post!
+                </button>
+                <GetPosts
                     onUserClick={onUserClick}
-                    trigger={refreshTrigger}
+                    onEditClick={handleEdit}
+                    page={page}
                 />
             </div>
         );
@@ -51,6 +57,7 @@ function App() {
                 />
                 <UserPosts
                     id={selectedUser}
+                    onEditClick={handleEdit}
                     onUserClick={onUserClick}
                 />
             </div>
@@ -60,12 +67,36 @@ function App() {
     if (page === "following") {
         return (
             <div>
-                <GetFollowingPosts
+                <GetPosts
                     onUserClick={onUserClick}
+                    onEditClick={handleEdit}
+                    page={page}
                 />
             </div>
-        );
+        )
+    }
+
+    if (page === "create") {
+        return (
+            <div>
+                <CreateOrEditPost
+                    setHomePage={setHomePage}
+                />
+            </div>
+        )
+    }
+
+    if (page === "edit") {
+        return <CreateOrEditPost
+            post={editingPost}
+            setHomePage={
+                () => {
+                    setPage("home")
+                    setEditingPost(null)
+                }
+            }
+        />
     }
 }
 
-ReactDOM.render(<App />, document.querySelector("#app"));
+ReactDOM.render(<App />, document.querySelector("#app"))

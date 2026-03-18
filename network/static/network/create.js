@@ -1,7 +1,10 @@
-function CreatePost(props) {
+function CreateOrEditPost(props) {
 
-    const [post, setPost] = React.useState("")
+    const [post, setPost] = React.useState(props.post ? props.post.content : "")
     const [status, setStatus] = React.useState("typing")
+
+    const url = props.post ? `api/put/edit/post/${props.post.id}` : "/api/create"
+    const method = props.post ? "PUT" : "POST"
 
     function handleTextAreaChange(event) {
         setPost(event.target.value)
@@ -10,8 +13,8 @@ function CreatePost(props) {
     function handleSubmit(event) {
         event.preventDefault()
         setStatus("submitting")
-        fetch("/api/create", {
-            method: "POST",
+        fetch(url, {
+            method: method,
             body: JSON.stringify({
                 content: post
             })
@@ -20,8 +23,7 @@ function CreatePost(props) {
             .then(response => {
                 console.log(response)
                 setPost("");
-                setStatus("typing");
-                props.onPostCreated()
+                props.setHomePage()
             })
     }
 
@@ -39,33 +41,6 @@ function CreatePost(props) {
                     Post
                 </button>
             </form>
-        </div>
-    )
-}
-
-function GetAllPosts(props) {
-
-    const [posts, setPosts] = React.useState([])
-
-    React.useEffect(() => {
-        fetch("/api/get/posts/all", {
-            method: "GET"
-        })
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                setPosts(response)
-            })
-    }, [props.trigger])
-
-    return (
-        <div>
-            {posts.map(post => (
-                <Post
-                    post={post}
-                    onUserClick={props.onUserClick}
-                />
-            ))}
         </div>
     )
 }

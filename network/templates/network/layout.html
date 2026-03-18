@@ -51,10 +51,10 @@
     </div>
 
     {% if user.is_authenticated %}
-    <script src="{% static 'network/index.js' %}" type="text/babel"></script>
+    <script src="{% static 'network/create.js' %}" type="text/babel"></script>
     <script src="{% static 'network/profile.js' %}" type="text/babel"></script>
-    <script src="{% static 'network/following.js' %}" type="text/babel"></script>
     <script src="{% static 'network/post.js' %}" type="text/babel"></script>
+    <script src="{% static 'network/view_posts.js' %}" type="text/babel"></script>
     <script src="{% static 'network/app.js' %}" type="text/babel"></script>
     {% endif %}
 

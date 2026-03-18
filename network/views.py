@@ -73,7 +73,6 @@ def create_post(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status = 400)
     data = json.loads(request.body)
-    # TODO: add data validation
     post = Post(
         user = request.user,
         content = data.get("content")
@@ -156,3 +155,18 @@ def like_post(request, id):
         post.likes.add(request.user)
         message = "Post liked successfully."
     return JsonResponse({"message": message}, status = 200)
+
+
+@csrf_exempt
+@login_required
+def edit_post(request, id):
+    if request.method != "PUT":
+        return JsonResponse({"error": "PUT request required."}, status = 400)
+    post = Post.objects.get(id = id)
+    if post.user != request.user:
+        return JsonResponse({"error": "You can only edit your own posts."}, status = 403)
+    data = json.loads(request.body)
+    content = data.get("content")
+    post.content = content
+    post.save()
+    return JsonResponse({"message": "Post updated successfully."}, status = 200)

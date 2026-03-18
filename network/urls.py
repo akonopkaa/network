@@ -13,5 +13,6 @@ urlpatterns = [
     path("api/get/posts/<int:id>", views.get_user_posts, name="get_user_posts"),
     path("api/get/posts/following", views.get_following_posts, name="get_following_posts"),
     path("api/put/user/<int:id>", views.follow_user, name="follow_user"),
-    path("api/put/post/<int:id>", views.like_post, name="like_post")
+    path("api/put/like/post/<int:id>", views.like_post, name="like_post"),
+    path("api/put/edit/post/<int:id>", views.edit_post, name="edit_post")
 ]
