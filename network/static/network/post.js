@@ -23,30 +23,40 @@ function Post(props) {
     }
 
     return (
-        <div>
-            <div>
+        <div className="card mb-3">
+            <div className="card-header">
                 <a href="#" onClick={(event) => {
                     event.preventDefault();
                     props.onUserClick(props.post.user_id)
                 }}>
-                    user: {props.post.user}
+                    <strong>
+                        {props.post.user}
+                    </strong>
                 </a>
             </div>
-            <div>content: {props.post.content}</div>
-            <div>time: {props.post.timestamp}</div>
-            <div>
-                <button
-                    onClick={handleLike}
-                    disabled={props.post.is_mine}>
-                    {isLiked ? "👎" : "👍"}
-                    {likes}
-                </button>
-                {props.post.is_mine && (
+            <div className="card-body">
+                {props.post.content}
+            </div>
+            <div className="card-footer text-muted d-flex justify-content-between">
+                <div>
+                    {props.post.timestamp}
+                </div>
+                <div>
+                    {props.post.is_mine && (
+                        <button
+                            className="btn btn-sm btn-primary mr-2"
+                            onClick={handleEdit}>
+                            Edit
+                        </button>
+                    )}
                     <button
-                        onClick={handleEdit}>
-                        Edit
+                        className="btn btn-sm btn-primary mr-2"
+                        onClick={handleLike}
+                        disabled={props.post.is_mine}>
+                        {isLiked ? "👎" : "👍"}
+                        {likes}
                     </button>
-                )}
+                </div>
             </div>
         </div>
     )

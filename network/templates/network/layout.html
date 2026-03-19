@@ -22,13 +22,17 @@
             <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" onclick="onUserClick({{ user.id }})"><strong>{{ user.username }}</strong></a>
+                    <a class="nav-link" href="#" onclick="onUserClick({{ user.id }})">
+                        <strong>
+                            {{user.username}}
+                        </strong>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="setHomePage()">All Posts</a>
+                    <a class="nav-link" href="#" onclick="setHomePage()">All Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="setFollowingPage()">Following</a>
+                    <a class="nav-link" href="#" onclick="setFollowingPage()">Following</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
