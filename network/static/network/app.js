@@ -36,10 +36,14 @@ function App() {
     if (page === "home") {
         return (
             <div>
-                <button
-                    onClick={handleCreate}>
-                    Create Post!
-                </button>
+                <div
+                    className="card-body mr-3 d-flex justify-content-center">
+                    <button
+                        className="btn btn-primary btn-lg"
+                        onClick={handleCreate}>
+                        Create Post!
+                    </button>
+                </div>
                 <GetPosts
                     onUserClick={onUserClick}
                     onEditClick={handleEdit}

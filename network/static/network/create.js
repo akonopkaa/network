@@ -28,18 +28,24 @@ function CreateOrEditPost(props) {
     }
 
     return (
-        <div>
+        <div
+            className="container">
             <form
+                className="card-body"
                 onSubmit={handleSubmit}>
                 <textarea
+                    className="form-control"
                     value={post}
                     onChange={handleTextAreaChange}
                     disabled={status === "submitting"}>
                 </textarea>
-                <button
-                    disabled={post.length === 0 || status === "submitting"}>
-                    Post
-                </button>
+                <div className="d-flex justify-content-center mt-3">
+                    <button
+                        className="btn btn-primary"
+                        disabled={post.length === 0 || status === "submitting"}>
+                        {props.post ? "Save" : "Post"}
+                    </button>
+                </div>
             </form>
         </div>
     )

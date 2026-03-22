@@ -44,13 +44,13 @@ function Post(props) {
                 <div>
                     {props.post.is_mine && (
                         <button
-                            className="btn btn-sm btn-primary mr-2"
+                            className="btn btn-sm btn-primary mx-2"
                             onClick={handleEdit}>
                             Edit
                         </button>
                     )}
                     <button
-                        className="btn btn-sm btn-primary mr-2"
+                        className="btn btn-sm btn-primary mx-2"
                         onClick={handleLike}
                         disabled={props.post.is_mine}>
                         {isLiked ? "👎" : "👍"}

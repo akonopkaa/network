@@ -46,19 +46,41 @@ function UserProfile(props) {
     }
 
     return (
-        <div>
-            <div>user: {user.user}</div>
-            <div>following: {user.following_count}</div>
-            <div>followers: {user.followers_count}</div>
+        <div
+            className="container text-center my-3">
+            <h2
+                className="mb-3">
+                {user.user}
+            </h2>
+            <div
+                className="d-flex justify-content-center mb-3">
+                <div
+                    className="mx-3">
+                    <span
+                        className="text-muted">
+                        Following:
+                    </span>
+                    {user.following_count}
+                </div>
+                <div
+                    className="mx-3">
+                    <span
+                        className="text-muted">
+                        Followers:
+                    </span>
+                    {user.followers_count}
+                </div>
+            </div>
             {!user.is_me && (
                 <form onSubmit={handleSubmit}>
                     <button
+                        className="btn btn-primary btn-lg"
                         disabled={status === "submitting"}>
                         {user.is_followed ? "Unfollow" : "Follow"}
                     </button>
                 </form>
             )}
-        </div>
+        </div >
     )
 }
 
@@ -96,19 +118,24 @@ function UserPosts(props) {
                     onEditClick={props.onEditClick}
                 />
             ))}
-            <div>
-                <button
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                    disabled={currentPage === 1}>
-                    Previous
-                </button>
-                <span>Page {currentPage}</span>
-                <button
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                    disabled={indexOfLastPost >= posts.length}>
-                    Next
-                </button>
-            </div>
+            {posts.length > 10 && (
+                <div
+                    className="card-body mb-3 d-flex justify-content-center align-items-center">
+                    <button
+                        className="btn btn-primary btn-sm mx-2"
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}>
+                        Previous
+                    </button>
+                    <span>Page {currentPage}</span>
+                    <button
+                        className="btn btn-primary btn-sm mx-2"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={indexOfLastPost >= posts.length}>
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     )
 }
