@@ -43,7 +43,7 @@ Users can like or unlike posts directly from the interface. The like count is up
 ## How to run: ##
 
 1. Install dependencies: `pip install django`
-4. Create migrations: `python manage.py makemigrations`
-5. Apply migrations: `python manage.py migrate`
-6. Run server: `python manage.py runserver`
-7. Open the local address shown in the terminal in your browser.
+2. Create migrations: `python manage.py makemigrations`
+3. Apply migrations: `python manage.py migrate`
+4. Run server: `python manage.py runserver`
+5. Open the local address shown in the terminal in your browser.
